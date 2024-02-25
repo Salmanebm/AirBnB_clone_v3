@@ -10,22 +10,18 @@ from models.city import City
 
 @app_views.route('/states/<string:state_id>/cities', methods=['GET'],
                  strict_slashes=False)
-def get_cities(state_id):
-    """get city information for all cities in a specified state"""
-    state = storage.get("State", state_id)
-    if state is None:
+def list_cities(state_id):
+    """ Lists all State objects """
+    if not storage.get(State, state_id):
         abort(404)
-    cities = []
-    for city in state.cities:
-        cities.append(city.to_dict())
-    return jsonify(cities)
+    return jsonify([city.to_dict() for city in storage.get(State, state_id).cities])
 
 
 @app_views.route('/cities/<string:city_id>', methods=['GET'],
                  strict_slashes=False)
-def get_city(city_id):
-    """get city information for specified city"""
-    city = storage.get("City", city_id)
+def city_id(city_id):
+    """ Returns the State object with the given id """
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
     return jsonify(city.to_dict())
