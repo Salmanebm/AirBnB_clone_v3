@@ -39,7 +39,7 @@ def delete_state_id(state_id):
 def create_state():
     """ Creates a new object """
     header_data = request.get_json()
-    if header_data is None:
+    if not request.is_json:
         abort(400, 'Not a JSON')
     if 'name' not in header_data.keys():
         abort(400, 'Missing name')
@@ -57,12 +57,12 @@ def update_state(state_id):
         abort(404)
 
     header_data = request.get_json()
-    if header_data is None:
+    if not request.is_json:
         abort(400, 'Not a JSON')
 
     for k, v in header_data.items():
         if k not in ['id', 'created_at', 'updated_at']:
             setattr(state, k, v)
-    
+
     storage.save()
     return jsonify(state.to_dict()), 200
