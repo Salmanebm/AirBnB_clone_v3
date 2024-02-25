@@ -12,12 +12,6 @@ from models.city import City
                  strict_slashes=False)
 def list_cities(state_id):
     """ Lists all State objects """
-    # all_cities = storage.all(City)
-    # cities_list = []
-    # for city in all_cities.values():
-    #     if city.state_id == state_id:
-    #         cities_list.append(city.to_dict())
-    # return jsonify(cities_list)
     return jsonify([city.to_dict() for city in storage.all(City)
                     .values() if city.state_id == state_id])
 
