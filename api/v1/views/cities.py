@@ -17,14 +17,14 @@ def list_cities(state_id):
     return jsonify([city.to_dict() for city in storage.get(State, state_id).cities])
 
 
-# @app_views.route('/cities/<string:city_id>', methods=['GET'],
-#                  strict_slashes=False)
-# def city_id(city_id):
-#     """ Returns the State object with the given id """
-#     city = storage.get(City, city_id)
-#     if city is None:
-#         abort(404)
-#     return jsonify(city.to_dict())
+@app_views.route('/cities/<string:city_id>', methods=['GET'],
+                 strict_slashes=False)
+def city_id(city_id):
+    """ Returns the State object with the given id """
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
+    return jsonify(city.to_dict())
 
 
 # @app_views.route('states/<state_id>', methods=['DELETE'],
