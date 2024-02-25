@@ -12,6 +12,8 @@ from models.city import City
                  strict_slashes=False)
 def list_cities(state_id):
     """ Lists all State objects """
+    if not storage.get(State, state_id):
+        abort(404)
     return jsonify([city.to_dict() for city in storage.get(State, state_id).cities])
 
 
