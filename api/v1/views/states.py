@@ -47,3 +47,22 @@ def create_state():
     storage.new(new_state)
     new_state.save()
     return jsonify(new_state.to_dict()), 201
+
+
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+def update_state(state_id):
+    """ Update an existing state object """
+    state = storage.get('State', state_id)
+    if state is None:
+        abort(404)
+
+    header_data = request.get_json()
+    if header_data is None:
+        abort(400, 'Not a JSON')
+
+    for k, v in header_data.items():
+        if k not in ['id', 'created_at', 'updated_at']:
+            setattr(state, k, v)
+    
+    storage.save()
+    return jsonify(state.to_dict()), 200
