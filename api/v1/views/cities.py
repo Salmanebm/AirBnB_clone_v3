@@ -12,8 +12,7 @@ from models.city import City
                  strict_slashes=False)
 def list_cities(state_id):
     """ Lists all State objects """
-    return jsonify([city.to_dict() for city in storage.all(City)
-                    .values() if city.state_id == state_id])
+    return jsonify([city.to_dict() for city in storage.get(State, state_id).cities])
 
 
 @app_views.route('/cities/<string:city_id>', methods=['GET'],
