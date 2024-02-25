@@ -41,9 +41,8 @@ def create_state():
     header_data = request.get_json()
     if header_data is None:
         make_response('Not a JSON', 400)
-    else:
-        if 'name' not in header_data.keys():
-            make_response('Missing name', 400)
+    if 'name' not in header_data.keys():
+        make_response('Missing name', 400)
     new_state = State(header_data)
     storage.new(new_state)
     new_state.save()
