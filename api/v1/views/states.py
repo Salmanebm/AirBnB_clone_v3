@@ -2,8 +2,9 @@
 """ State view """
 
 from api.v1.views import app_views
-from flask import jsonify, abort, make_response
+from flask import jsonify, abort, request, make_response
 from models import storage
+from models.state import State
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
@@ -22,7 +23,8 @@ def state_id(state_id):
     return jsonify(state.to_dict())
 
 
-@app_views.route('states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_state_id(state_id):
     """ Deletes an object via its ID """
     state = storage.get('State', state_id)
@@ -31,3 +33,18 @@ def delete_state_id(state_id):
     state.delete()
     storage.save()
     return jsonify({})
+
+
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
+def create_state():
+    """ Creates a new object """
+    header_data = request.get_json()
+    if header_data is None:
+        make_response('Not a JSON', 400)
+    else:
+        if 'name' not in header_data.keys():
+            make_response('Missing name', 400)
+    new_state = State(header_data)
+    storage.new(new_state)
+    new_state.save()
+    return jsonify(new_state.to_dict()), 201
