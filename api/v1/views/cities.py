@@ -16,14 +16,14 @@ def list_cities(state_id):
                     .values() if city.state_id == state_id])
 
 
-# @app_views.route('/states/<string:state_id>', methods=['GET'],
-#                  strict_slashes=False)
-# def state_id(state_id):
-#     """ Returns the State object with the given id """
-#     state = storage.get(City, state_id)
-#     if state is None:
-#         abort(404)
-#     return jsonify(state.to_dict())
+@app_views.route('/cities/<string:city_id>', methods=['GET'],
+                 strict_slashes=False)
+def city_id(city_id):
+    """ Returns the State object with the given id """
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
+    return jsonify(city.to_dict())
 
 
 # @app_views.route('states/<state_id>', methods=['DELETE'],
