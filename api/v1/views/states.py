@@ -40,10 +40,10 @@ def create_state():
     """ Creates a new object """
     header_data = request.get_json()
     if header_data is None:
-        make_response('Not a JSON', 400)
+        abort(400, 'Not a JSON')
     if 'name' not in header_data.keys():
-        make_response('Missing name', 400)
-    new_state = State(header_data)
+        abort(400, 'Missing name')
+    new_state = State(**header_data)
     storage.new(new_state)
     new_state.save()
     return jsonify(new_state.to_dict()), 201
