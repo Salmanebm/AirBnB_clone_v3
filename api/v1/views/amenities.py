@@ -26,50 +26,46 @@ def amenity_id(amenity_id):
     return jsonify(amenity.to_dict())
 
 
-# @app_views.route('/cities/<city_id>', methods=['DELETE'],
-#                  strict_slashes=False)
-# def delete_city_id(city_id):
-#     """ Deletes an object via its ID """
-#     city = storage.get(City, city_id)
-#     if city is None:
-#         abort(404)
-#     city.delete()
-#     storage.save()
-#     return jsonify({}), 200
+@app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_amenity_id(amenity_id):
+    """ Deletes an object via its ID """
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity is None:
+        abort(404)
+    amenity.delete()
+    storage.save()
+    return jsonify({}), 200
 
 
-# @app_views.route('/states/<state_id>/cities', methods=['POST'],
-#                  strict_slashes=False)
-# def create_city(state_id):
-#     """ Creates a new object """
-#     if not storage.get(State, state_id):
-#         abort(404)
-
-#     header_data = request.get_json()
-#     if header_data is None:
-#         abort(400, 'Not a JSON')
-#     if 'name' not in header_data.keys():
-#         abort(400, 'Missing name')
-#     new_city = City(**header_data, state_id=state_id)
-#     storage.new(new_city)
-#     new_city.save()
-#     return jsonify(new_city.to_dict()), 201
+@app_views.route('/amenities', methods=['POST'], strict_slashes=False)
+def create_amenity():
+    """ Creates a new object """
+    header_data = request.get_json()
+    if header_data is None:
+        abort(400, 'Not a JSON')
+    if 'name' not in header_data.keys():
+        abort(400, 'Missing name')
+    new_amenity = Amenity(**header_data)
+    storage.new(new_amenity)
+    new_amenity.save()
+    return jsonify(new_amenity.to_dict()), 201
 
 
-# @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
-# def update_city(city_id):
-#     """ Update an existing state object """
-#     city = storage.get(City, city_id)
-#     if city is None:
-#         abort(404)
+@app_views.route('amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+def update_amenity(amenity_id):
+    """ Update an existing amenity object """
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity is None:
+        abort(404)
 
-#     header_data = request.get_json()
-#     if header_data is None:
-#         abort(400, 'Not a JSON')
+    header_data = request.get_json()
+    if header_data is None:
+        abort(400, 'Not a JSON')
 
-#     for k, v in header_data.items():
-#         if k not in ['id', 'created_at', 'updated_at', 'state_id']:
-#             setattr(city, k, v)
+    for k, v in header_data.items():
+        if k not in ['id', 'created_at', 'updated_at']:
+            setattr(amenity, k, v)
 
-#     storage.save()
-#     return jsonify(city.to_dict()), 200
+    storage.save()
+    return jsonify(amenity.to_dict()), 200
