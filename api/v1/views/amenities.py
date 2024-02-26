@@ -16,14 +16,14 @@ def list_amenities():
     return jsonify([amenity.to_dict() for amenity in amenities.values()])
 
 
-# @app_views.route('/cities/<string:city_id>', methods=['GET'],
-#                  strict_slashes=False)
-# def city_id(city_id):
-#     """ Returns the City object with the given id """
-#     city = storage.get(City, city_id)
-#     if city is None:
-#         abort(404)
-#     return jsonify(city.to_dict())
+@app_views.route('/amenities/<amenity_id>', methods=['GET'],
+                 strict_slashes=False)
+def amenity_id(amenity_id):
+    """ Returns the City object with the given id """
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity is None:
+        abort(404)
+    return jsonify(amenity.to_dict())
 
 
 # @app_views.route('/cities/<city_id>', methods=['DELETE'],
