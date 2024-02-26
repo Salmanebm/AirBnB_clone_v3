@@ -19,14 +19,14 @@ def list_places(city_id):
     return jsonify([place.to_dict() for place in city.places])
 
 
-# @app_views.route('/places/<place_id>', methods=['GET'],
-#                  strict_slashes=False)
-# def place_id(place_id):
-#     """ Returns the City object with the given id """
-#     place = storage.get(Place, place_id)
-#     if place is None:
-#         abort(404)
-#     return jsonify(place.to_dict())
+@app_views.route('/places/<place_id>', methods=['GET'],
+                 strict_slashes=False)
+def place_id(place_id):
+    """ Returns the City object with the given id """
+    place = storage.get(Place, place_id)
+    if place is None:
+        abort(404)
+    return jsonify(place.to_dict())
 
 
 # @app_views.route('/places/<place_id>', methods=['DELETE'],
