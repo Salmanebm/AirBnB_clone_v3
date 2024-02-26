@@ -2,7 +2,7 @@
 """First api"""
 
 from api.v1.views import app_views
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from models import storage
 from os import getenv
 
@@ -14,7 +14,7 @@ app.register_blueprint(app_views)
 @app.errorhandler(404)
 def not_found(error):
     """ 404 not found handler """
-    return jsonify(error='not found'), 404
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 @app.teardown_appcontext
@@ -24,7 +24,6 @@ def teardown_appcontext(exception):
 
 
 if __name__ == '__main__':
-    api_host = getenv('HBNB_API_HOST')
-    api_port = getenv('HBNB_API_PORT')
-    app.run(host=api_host if api_host else '0.0.0.0',
-            port=api_port if api_port else 5000, threaded=True)
+    app.run(host=getenv('HBNB_API_HOST', '0.0.0.0'),
+            port=getenv('HBNB_API_PORT', 5000),
+            threaded=True)
