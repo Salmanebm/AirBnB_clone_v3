@@ -16,7 +16,7 @@ def list_places(city_id):
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
-    return jsonify([Place.to_dict() for Place in city.places])
+    return jsonify([place.to_dict() for place in city.places])
 
 
 # @app_views.route('/places/<place_id>', methods=['GET'],
