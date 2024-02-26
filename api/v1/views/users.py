@@ -62,7 +62,7 @@ def update_user(user_id):
         abort(400, 'Not a JSON')
 
     for k, v in header_data.items():
-        if k not in ['id', 'created_at', 'updated_at']:
+        if k not in ['id', 'email', 'created_at', 'updated_at']:
             setattr(user, k, v)
 
     storage.save()
