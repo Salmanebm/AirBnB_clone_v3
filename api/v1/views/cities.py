@@ -12,9 +12,10 @@ from models.city import City
                  strict_slashes=False)
 def list_cities(state_id):
     """ Lists all City objects """
-    if not storage.get(State, state_id):
+    state = storage.get(State, state_id)
+    if not state:
         abort(404)
-    return jsonify([city.to_dict() for city in storage.get(State, state_id).cities])
+    return jsonify([city.to_dict() for city in state.cities])
 
 
 @app_views.route('/cities/<string:city_id>', methods=['GET'],
@@ -39,7 +40,8 @@ def delete_city_id(city_id):
     return jsonify({}), 200
 
 
-@app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['POST'],
+                 strict_slashes=False)
 def create_city(state_id):
     """ Creates a new object """
     if not storage.get(State, state_id):
