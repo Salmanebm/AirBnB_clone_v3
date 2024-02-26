@@ -58,3 +58,30 @@ def post_review(place_id):
         abort(400, 'Missing user_id')
     
     user = storage.get(User, header_data.get('user_id'))
+    if not user:
+        abort(404)
+    if 'text' not in header_data.keys():
+        abort(400, 'Missing text')
+    
+    new_review = Review(**header_data, place_id=place_id)
+    new_review.save()
+    return jsonify(new_review.to_dict()), 201
+
+
+@app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
+def put_review(review_id):
+    """ Updates a review object if it exists """
+    review = storage.get(Review, review_id)
+    if review is None:
+        abort(404)
+
+    header_data = request.get_json()
+    if header_data is None:
+        abort(400, 'Not a JSON')
+
+    for k, v in header_data.items():
+        if k not in ['id', 'user_id', 'state_id', 'created_at', 'updated_at']:
+            setattr(review, k, v)
+
+    storage.save()
+    return jsonify(review.to_dict()), 200
