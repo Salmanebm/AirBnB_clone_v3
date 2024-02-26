@@ -22,16 +22,16 @@ def state_id(state_id):
     return jsonify(storage.get(State, state_id).to_dict())
 
 
-# @app_views.route('states/<state_id>', methods=['DELETE'],
-#                  strict_slashes=False)
-# def delete_state_id(state_id):
-#     """ Deletes an object via its ID """
-#     state = storage.get(State, state_id)
-#     if state is None:
-#         abort(404)
-#     state.delete()
-#     storage.save()
-#     return jsonify({}), 200
+@app_views.route('states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_state_id(state_id):
+    """ Deletes an object via its ID """
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
+    state.delete()
+    storage.save()
+    return jsonify({}), 200
 
 
 # @app_views.route('/states', methods=['POST'], strict_slashes=False)
