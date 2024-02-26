@@ -58,20 +58,20 @@ def create_city(state_id):
     return jsonify(new_city.to_dict()), 201
 
 
-# @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-# def update_state(state_id):
-#     """ Update an existing state object """
-#     state = storage.get(City, state_id)
-#     if state is None:
-#         abort(404)
+@app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
+def update_city(city_id):
+    """ Update an existing state object """
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
 
-#     header_data = request.get_json()
-#     if header_data is None:
-#         abort(400, 'Not a JSON')
+    header_data = request.get_json()
+    if header_data is None:
+        abort(400, 'Not a JSON')
 
-#     for k, v in header_data.items():
-#         if k not in ['id', 'created_at', 'updated_at']:
-#             setattr(state, k, v)
+    for k, v in header_data.items():
+        if k not in ['id', 'created_at', 'updated_at', 'state_id']:
+            setattr(city, k, v)
 
-#     storage.save()
-#     return jsonify(state.to_dict()), 200
+    storage.save()
+    return jsonify(city.to_dict()), 200
