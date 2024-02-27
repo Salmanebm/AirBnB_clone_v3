@@ -54,11 +54,10 @@ def update_state(state_id):
     if state is None:
         abort(404)
 
-    header_data = request.get_json()
-    if header_data is None:
+    if request.is_json is None:
         abort(400, 'Not a JSON')
 
-    for k, v in header_data.items():
+    for k, v in request.get_json().items():
         if k not in ['id', 'created_at', 'updated_at']:
             setattr(state, k, v)
 
