@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""First api"""
+""" First api """
 
 from api.v1.views import app_views
 from flask import Flask, jsonify, make_response
@@ -16,7 +16,7 @@ cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 @app.errorhandler(404)
 def not_found(error):
     """ 404 not found handler """
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    return jsonify({'error': 'Not found'}), 404
 
 
 @app.teardown_appcontext
