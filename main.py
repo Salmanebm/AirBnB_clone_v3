@@ -10,4 +10,3 @@ if m_imported.__doc__ is None:
     print("No module documentation", end="")
 else:
     print("OK", end="")
-    
