@@ -2,7 +2,7 @@
 """ Main flask application file """
 
 from api.v1.views import app_views
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify
 from models import storage
 from os import getenv
 from flask_cors import CORS
