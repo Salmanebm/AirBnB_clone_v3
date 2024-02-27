@@ -44,15 +44,15 @@ def delete_city_id(city_id):
                  strict_slashes=False)
 def create_city(state_id):
     """ Creates a new object """
+    if not request.is_json:
+        abort(400, 'Not a JSON')
+
     if not storage.get(State, state_id):
         abort(404)
 
-    header_data = request.get_json()
-    if header_data is None:
-        abort(400, 'Not a JSON')
-    if 'name' not in header_data.keys():
+    if 'name' not in request.get_json().keys():
         abort(400, 'Missing name')
-    new_city = City(**header_data, state_id=state_id)
+    new_city = City(**request.get_json(), state_id=state_id)
     storage.new(new_city)
     new_city.save()
     return jsonify(new_city.to_dict()), 201
@@ -61,15 +61,14 @@ def create_city(state_id):
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
     """ Update an existing state object """
+    if not request.is_json:
+        abort(400, 'Not a JSON')
+
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
 
-    header_data = request.get_json()
-    if header_data is None:
-        abort(400, 'Not a JSON')
-
-    for k, v in header_data.items():
+    for k, v in request.get_json().items():
         if k not in ['id', 'created_at', 'updated_at', 'state_id']:
             setattr(city, k, v)
 
