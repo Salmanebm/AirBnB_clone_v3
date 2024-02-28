@@ -9,7 +9,7 @@ from models.amenity import Amenity
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def list_amenities():
-    """ Lists all City objects """
+    """ Lists all Amenities objects """
     amenities = storage.all(Amenity)
     return jsonify([amenity.to_dict() for amenity in amenities.values()])
 
@@ -17,7 +17,7 @@ def list_amenities():
 @app_views.route('/amenities/<amenity_id>', methods=['GET'],
                  strict_slashes=False)
 def amenity_id(amenity_id):
-    """ Returns the City object with the given id """
+    """ Returns the amenity object with the given id """
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
@@ -27,7 +27,7 @@ def amenity_id(amenity_id):
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_amenity_id(amenity_id):
-    """ Deletes an object via its ID """
+    """ Deletes an amenity object via its ID """
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
@@ -38,7 +38,7 @@ def delete_amenity_id(amenity_id):
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def create_amenity():
-    """ Creates a new object """
+    """ Creates a new amenity object """
     if not request.is_json:
         abort(400, 'Not a JSON')
 
@@ -54,7 +54,7 @@ def create_amenity():
 @app_views.route('amenities/<amenity_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_amenity(amenity_id):
-    """ Update an existing amenity object """
+    """ Updates an existing amenity object """
     if not request.is_json:
         abort(400, 'Not a JSON')
 
